@@ -1,6 +1,7 @@
 #pragma once
 #include "Matrix.h"
 #include <exception>
+#include "Point.h"
 class Domino
 {
 public:
@@ -35,9 +36,9 @@ public:
 
 	Domino & operator = (const Domino & value) = delete;
 
-	bool GetValue(int row, int col, int & value)
+	bool GetValue(Point point)
 	{
-		return _mat.GetValue(row, col, value);
+		return _mat.GetValue(point);
 	}
 
 private:

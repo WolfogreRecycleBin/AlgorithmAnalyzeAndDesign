@@ -70,6 +70,7 @@
   <ItemGroup>
     <ClInclude Include="Domino.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Point.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
