@@ -10,6 +10,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EBBECFE6-1EE2-4168-A0E3-EA7A81CD98EC}</ProjectGuid>
     <RootNamespace>Exp1_ChessboardCoveringProblem</RootNamespace>
