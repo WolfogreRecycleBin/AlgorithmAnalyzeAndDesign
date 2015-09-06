@@ -19,8 +19,11 @@ namespace Exp1_Windows_ChessboardCoveringProblem
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			int size = 4;
-			ChessBoard cb = new ChessBoard(size, 2, 1);
+			int k = Convert.ToInt32(textBox2.Text);
+			int size = 1 << k;
+			int specialRow = Convert.ToInt32(textBox3.Text) - 1;
+			int specialCol = Convert.ToInt32(textBox4.Text) - 1;
+			ChessBoard cb = new ChessBoard(size, specialCol, specialRow);
 			int [,] result = cb.FillBoard();
 			textBox1.Clear();
 			for(int i = 0; i < size; ++i)
@@ -29,6 +32,7 @@ namespace Exp1_Windows_ChessboardCoveringProblem
 					textBox1.Text += " " + result[i, j];
 				textBox1.Text += " " + Environment.NewLine;
 			}
+			chessBoardControl.LoadData(result, size);
 		}
 	}
 }
