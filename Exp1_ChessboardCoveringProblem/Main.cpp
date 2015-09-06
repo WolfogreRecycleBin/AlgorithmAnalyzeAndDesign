@@ -3,7 +3,7 @@
 #include "Domino.h"
 #include "Point.h"
 
-bool Fit(Domino & domino, Matrix & mat, Point point);
+/*bool Fit(Domino & domino, Matrix & mat, Point point);
 bool Add(Domino & domino, Matrix & mat, Point point);
 bool Sub(Domino & domino, Matrix & mat, Point point);
 Point GetNextPoint(Point old_point, Matrix &mat);
@@ -34,11 +34,11 @@ bool AddDomino(int value, Matrix &mat, Point point)
 	return true;
 
 }
-
+*/
 
 int main()
 {
-	int row = 2;
+	/*int row = 2;
 	int col = 2;
 
 	Matrix mat(row, col);
@@ -46,6 +46,10 @@ int main()
 	Point start_point(0,0);
 	AddDomino(1, mat, start_point);
 
+	system("pause");
+	return 0;*/
+	Matrix mat(2, 2);
+	mat.~Matrix();
 	system("pause");
 	return 0;
 }
@@ -56,8 +60,9 @@ bool Fit(Domino & domino, Matrix & mat, Point point)
 	for (int i = 0; i < 2; ++i)
 		for (int j = 0; j < 2; ++j)
 		{
-			if (domino.GetValue())
+			//if (domino.GetValue())
 		}
+	return false;
 }
 bool Add(Domino & domino, Matrix & mat, Point point);
 bool Sub(Domino & domino, Matrix & mat, Point point);

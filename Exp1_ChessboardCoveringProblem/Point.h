@@ -1,3 +1,4 @@
+#pragma once
 struct Point
 {
 	Point(int input_x, int input_y)

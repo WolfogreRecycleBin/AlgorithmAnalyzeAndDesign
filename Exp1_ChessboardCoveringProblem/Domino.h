@@ -36,7 +36,7 @@ public:
 
 	Domino & operator = (const Domino & value) = delete;
 
-	bool GetValue(Point point)
+	int GetValue(Point point)
 	{
 		return _mat.GetValue(point);
 	}
