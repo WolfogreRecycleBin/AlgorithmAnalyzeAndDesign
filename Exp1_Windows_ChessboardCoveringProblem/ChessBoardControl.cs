@@ -14,11 +14,15 @@ namespace Exp1_Windows_ChessboardCoveringProblem
 	{
 		int[,] _board;
 		int _size;
+		int _specailX;
+		int _specailY;
+		Color _specailColor;
 
 		public ChessBoardControl()
 		{
 			_board = null;
 			_size = 0;
+			_specailColor = Color.FromArgb(0, 0, 0);
 			InitializeComponent();
 		}
 
@@ -31,6 +35,7 @@ namespace Exp1_Windows_ChessboardCoveringProblem
 					_board[i, j] = board[i, j];
 			PaintEventArgs pra = new PaintEventArgs(this.CreateGraphics(), this.ClientRectangle);
 			this.OnPrint(pra);
+			this.timer1.Start();
 		}
 
 		void Draw(Graphics g)
@@ -47,6 +52,8 @@ namespace Exp1_Windows_ChessboardCoveringProblem
 						if(_board[i, j] == 0)
 						{
 							color = Color.FromArgb(0, 0, 0);
+							_specailX = j;
+							_specailY = i;
 						}
 						else
 						{
@@ -60,12 +67,31 @@ namespace Exp1_Windows_ChessboardCoveringProblem
 			}
 		}
 
-
+		void Twinkle(Graphics g)
+		{
+			if(_board != null)
+			{
+				int atomWidth = this.Size.Width / _size;
+				int atomHeight = this.Size.Height / _size;
+				Brush brush = new SolidBrush(_specailColor);
+				Rectangle rect = new Rectangle(_specailX * atomWidth, _specailY * atomHeight, atomWidth, atomHeight);
+				g.FillRectangle(brush, rect);
+				if(_specailColor.R == 0)
+					_specailColor = Color.FromArgb(255, 255, 255);
+				else
+					_specailColor = Color.FromArgb(0, 0, 0);
+			}
+		}
 
 		private void ChessBoardControl_Paint(object sender, PaintEventArgs e)
 		{
 			Graphics g = e.Graphics;
 			this.Draw(g);
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			Twinkle(this.CreateGraphics());
 		}
 	}
 }
