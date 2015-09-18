@@ -1,10 +1,15 @@
 #include <iostream>
 using namespace std;
 
+// int p & int n: the dimension of the matrix[i] is p[i - 1] * p[i], i = [1 : n];
+// int m[][]: the least multiply times required of matrix[i : j] is m[i][j], 1 <= i <= j <= n;
+// int s[][]: the best disconnection position of matrix[i : j] is p[i][j], 1 <= i <= j <= n;
 void MatrixChain(int *p, int n, int **m, int **s)
 {
+	//the least multiply times required of matrix[i : i] is 0
 	for (int i = 1; i <= n; ++i)
 		m[i][i] = 0;
+
 	for (int r = 2; r <= n; ++r)
 		for (int i = 1; i <= n - r + 1; ++i)
 		{
@@ -31,17 +36,6 @@ void Traceback(int i, int j, int **s)
 	Traceback(s[i][j] + 1, j, s);
 	cout << "M A" << i << "," << s[i][j];
 	cout << "and A" << (s[i][j] + 1) << "," << j << endl;
-}
-
-
-void Show(int **mat, int n)
-{
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < n; ++j)
-			cout << mat[i][j] << " ";
-		cout << endl;
-	}
 }
 
 int main()
