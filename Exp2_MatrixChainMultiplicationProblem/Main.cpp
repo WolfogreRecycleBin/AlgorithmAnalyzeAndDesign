@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 // int p & int n: the dimension of the matrix[i] is p[i - 1] * p[i], i = [1 : n];
@@ -28,14 +29,20 @@ void MatrixChain(int *p, int n, int **m, int **s)
 		}
 }
 
-void Traceback(int i, int j, int **s)
+string Traceback(int i, int j, int **s, string left_str, string right_str)
 {
+	//if (i == j)
+	//	return "A" + string(itoa(i, str, 10));
 	if (i == j)
-		return;
-	Traceback(i, s[i][j], s);
-	Traceback(s[i][j] + 1, j, s);
-	cout << "M A" << i << "," << s[i][j];
-	cout << "and A" << (s[i][j] + 1) << "," << j << endl;
+	{
+		char str[100];
+		_itoa_s(i, str, 10);
+		return "A" + string(str);
+	}
+		
+	left_str += Traceback(i, s[i][j], s, "", "");
+	right_str += Traceback(s[i][j] + 1, j, s, "", "");
+	return "(" + left_str + right_str + ")";
 }
 
 int main()
@@ -49,7 +56,10 @@ int main()
 		s[i] = new int[7];
 	}
 	MatrixChain(p, 6, m, s);
-	Traceback(1, 6, s);
+	string result = Traceback(1, 6, s, "", "");
+	result.erase(0, 1);
+	result.erase(result.length() - 1, 1);
+	cout << result;
 	system("pause");
 	return 0;
 }
