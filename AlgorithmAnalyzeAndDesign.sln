@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Eg2_04_Permutate", "Eg2_04_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exp2_MatrixChainMultiplicationProblem", "Exp2_MatrixChainMultiplicationProblem\Exp2_MatrixChainMultiplicationProblem.vcxproj", "{6F894D68-2ABF-4808-B3DB-4099D9927D4D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exp3_LongestCommonSubsequence", "Exp3_LongestCommonSubsequence\Exp3_LongestCommonSubsequence.vcxproj", "{50DFC449-0490-4F12-911E-2FE1AA411719}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,16 @@ Global
 		{6F894D68-2ABF-4808-B3DB-4099D9927D4D}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{6F894D68-2ABF-4808-B3DB-4099D9927D4D}.Release|Win32.ActiveCfg = Release|Win32
 		{6F894D68-2ABF-4808-B3DB-4099D9927D4D}.Release|Win32.Build.0 = Release|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Debug|Win32.ActiveCfg = Debug|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Debug|Win32.Build.0 = Debug|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Release|Any CPU.ActiveCfg = Release|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Release|Win32.ActiveCfg = Release|Win32
+		{50DFC449-0490-4F12-911E-2FE1AA411719}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
