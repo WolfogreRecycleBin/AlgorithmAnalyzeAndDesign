@@ -2,52 +2,43 @@
 #include <string>
 using namespace std;
 
-int c[100][100];
-int b[100][100];
+int mat_c[100][100];
+int mat_b[100][100];
 char str_x[] = "sABCBDAB";
 char str_y[] = "sBDCABA";
 
 
-void InitCB()
-{
-	for (int i = 0; i < 100; ++i)
-		for (int j = 0; j < 100; ++j)
-		{
-			c[i][j] = -1;
-			b[i][j] = 0;
-		}
-}
 
-int CalCB(int i, int j)
+void CalMatCB(int row, int col)
 {
-	if (c[i][j] != -1)
-		return c[i][j];
-
-	if (i == 0 || j == 0)
-		c[i][j] = 0;
-	else
+	for (int co = 0; co < col; ++co)
 	{
-		if (str_x[i] == str_y[j])
+		for (int ro = 0; ro < row; ++ro)
 		{
-			c[i][j] = CalCB(i - 1, j - 1) + 1;
-			b[i][j] = 1;
-		}
-		else
-		{
-			if (CalCB(i, j - 1) > CalCB(i - 1, j))
+			if (co == 0 || ro == 0)
 			{
-				c[i][j] = CalCB(i, j - 1);
-				b[i][j] = 2;
+				mat_c[ro][co] = 0;
+				mat_b[ro][co] = 0;
+				continue;
 			}
-			else
+			if (str_x[co] == str_y[ro])
 			{
-				c[i][j] = CalCB(i - 1, j);
-				b[i][j] = 3;
+				mat_c[ro][co] = mat_c[ro - 1][co - 1] + 1;
+				mat_b[ro][co] = 1;
+				continue;
 			}
+			if (mat_c[ro - 1][co] >= mat_c[ro][co - 1])
+			{
+				mat_c[ro][co] = mat_c[ro - 1][co];
+				mat_b[ro][co] = 2;
+				continue;
+			}
+			mat_c[ro][co] = mat_c[ro][co - 1];
+			mat_b[ro][co] = 3;
+			continue;
 		}
-
 	}
-	return c[i][j];
+
 }
 
 void ShowC(int size)
@@ -57,10 +48,10 @@ void ShowC(int size)
 	{
 		for (int j = 0; j < size; ++j)
 		{
-			if (c[i][j] == -1)
+			if (mat_c[i][j] == -1)
 				cout << "*" << " ";
 			else
-				cout << c[i][j] << " ";
+				cout << mat_c[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -69,14 +60,11 @@ void ShowC(int size)
 void ShowB(int size)
 {
 	cout << endl;
-	for (int i = 1; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 	{
-		for (int j = 1; j < size; ++j)
+		for (int j = 0; j < size; ++j)
 		{
-			if (b[i][j] == 0)
-				cout << "*" << " ";
-			else
-				cout << b[i][j] << " ";
+			cout << mat_b[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -86,11 +74,11 @@ string LCS(int i, int j)
 {
 	if (i == 0 || j == 0)
 		return string("");
-	if (b[i][j] == 1)
+	if (mat_b[i][j] == 1)
 		return LCS(i - 1, j - 1) + str_x[i];
-	if (b[i][j] == 2)
+	if (mat_b[i][j] == 2)
 		return LCS(i - 1, j);
-	if (b[i][j] == 3)
+	if (mat_b[i][j] == 3)
 		return LCS(i, j - 1);
 }
 
@@ -99,12 +87,10 @@ int main()
 	int str_x_len = 7 + 1;
 	int str_y_len = 6 + 1;
 
-	InitCB();
-	//for(int i = 0; i < str_x_len; ++i)
-	//for(int j = 0; j < str_y_len; ++j)
-	CalCB(str_x_len, str_y_len);
+	CalMatCB(str_x_len + 1, str_y_len + 1);
 	ShowC(str_x_len);
 	ShowB(str_x_len);
-	cout << LCS(str_x_len, str_y_len) << endl;;
+	cout << LCS(str_x_len, str_y_len) << endl;
+	system("pause");
 	return 0;
 }

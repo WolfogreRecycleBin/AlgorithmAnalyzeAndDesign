@@ -11,7 +11,7 @@ void MatrixChain(int *p, int n, int **m, int **s)
 	//the least multiply times required of matrix[i : i] is 0
 	for (int i = 1; i <= n; ++i)
 		m[i][i] = 0;
-
+	// I dont know the meaning of r, I should make it sense 
 	for (int r = 2; r <= n; ++r)
 		for (int i = 1; i <= n - r + 1; ++i)
 		{
