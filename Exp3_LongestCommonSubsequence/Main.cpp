@@ -5,8 +5,8 @@ using namespace std;
 
 int mat_c[100][100];
 int mat_b[100][100];
-char str_x[] = "ABCBDAB";
-char str_y[] = "BDCABA";
+char str_x[100];
+char str_y[100];
 
 
 
@@ -48,45 +48,38 @@ void CalMatCB(int rows, int cols)
 
 }
 
-void ShowC(int size)
+void ShowC(int rows, int cols)
 {
 	cout << endl;
-	for (int i = 0; i < size; ++i)
+	for (int row = 0; row < rows; ++row)
 	{
-		for (int j = 0; j < size; ++j)
-		{
-			if (mat_c[i][j] == -1)
-				cout << "*" << " ";
-			else
-				cout << mat_c[i][j] << " ";
-		}
+		for (int col = 0; col < cols; ++col)
+			cout << mat_c[row][col] << " ";
 		cout << endl;
 	}
 }
 
-void ShowB(int size)
+void ShowB(int rows, int cols)
 {
 	cout << endl;
-	for (int i = 0; i < size; ++i)
+	for (int row = 0; row < rows; ++row)
 	{
-		for (int j = 0; j < size; ++j)
-		{
-			cout << mat_b[i][j] << " ";
-		}
+		for (int col = 0; col < cols; ++col)
+			cout << mat_b[row][col] << " ";
 		cout << endl;
 	}
 }
 
 void LCS(int row, int col, vector<char> & chars)
 {
-	cout << "LCS(" << row << ", " << col << ", " << "chars(";
-	for (auto ch : chars)
-		cout << ch;
-	cout << "));" << endl;
+	//cout << "LCS(" << row << ", " << col << ", " << "chars(";
+	//for (auto ch : chars)
+	//	cout << ch;
+	//cout << "));" << endl;
 	if (mat_b[row][col] == 0)
 	{
-		for (auto ch : chars)
-			cout << ch;
+		for (int i = chars.size() - 1; i >= 0; --i)
+			cout << chars[i] << " ";
 		cout << endl;
 		return;
 	}
@@ -118,14 +111,29 @@ void LCS(int row, int col, vector<char> & chars)
 
 int main()
 {
-	int str_x_len = 7;
-	int str_y_len = 6;
+	int cases;
+	cin >> cases;
 
-	CalMatCB(str_x_len + 1, str_y_len + 1);
-	ShowC(str_x_len + 1);
-	ShowB(str_x_len + 1);
-	vector<char> chars;
-	LCS(str_x_len, str_y_len, chars);
+	int count = 1;
+	while (cases--)
+	{
+
+		int str_x_len;
+		int str_y_len;
+		cin >> str_x_len;
+		cin >> str_y_len;
+		for (int i = 0; i < str_x_len; ++i)
+			cin >> str_x[i];
+		for (int i = 0; i < str_y_len; ++i)
+			cin >> str_y[i];
+		CalMatCB(str_x_len + 1, str_y_len + 1);
+		vector<char> chars;
+		cout << "Case " << count++ << endl;
+		cout << "最长公共子序列的长度:" << mat_c[str_x_len][str_y_len] << endl;
+		LCS(str_x_len, str_y_len, chars);
+		ShowC(str_x_len + 1, str_y_len + 1);
+		ShowB(str_x_len + 1, str_y_len + 1);
+	}
 	system("pause");
 	return 0;
 }
