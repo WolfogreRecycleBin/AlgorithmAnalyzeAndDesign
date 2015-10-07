@@ -1,40 +1,47 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 int mat_c[100][100];
 int mat_b[100][100];
-char str_x[] = "sABCBDAB";
-char str_y[] = "sBDCABA";
+char str_x[] = "ABCBDAB";
+char str_y[] = "BDCABA";
 
 
 
-void CalMatCB(int row, int col)
+void CalMatCB(int rows, int cols)
 {
-	for (int co = 0; co < col; ++co)
+	for (int col = 0; col < cols; ++col)
 	{
-		for (int ro = 0; ro < row; ++ro)
+		for (int row = 0; row < rows; ++row)
 		{
-			if (co == 0 || ro == 0)
+			if (col == 0 || row == 0)
 			{
-				mat_c[ro][co] = 0;
-				mat_b[ro][co] = 0;
+				mat_c[row][col] = 0;
+				mat_b[row][col] = 0;
 				continue;
 			}
-			if (str_x[co] == str_y[ro])
+			if (str_x[row - 1] == str_y[col - 1])
 			{
-				mat_c[ro][co] = mat_c[ro - 1][co - 1] + 1;
-				mat_b[ro][co] = 1;
+				mat_c[row][col] = mat_c[row - 1][col - 1] + 1;
+				mat_b[row][col] = 1;
 				continue;
 			}
-			if (mat_c[ro - 1][co] >= mat_c[ro][co - 1])
+			if (mat_c[row - 1][col] > mat_c[row][col - 1])
 			{
-				mat_c[ro][co] = mat_c[ro - 1][co];
-				mat_b[ro][co] = 2;
+				mat_c[row][col] = mat_c[row - 1][col];
+				mat_b[row][col] = 2;
 				continue;
 			}
-			mat_c[ro][co] = mat_c[ro][co - 1];
-			mat_b[ro][co] = 3;
+			if (mat_c[row - 1][col] < mat_c[row][col - 1])
+			{
+				mat_c[row][col] = mat_c[row][col - 1];
+				mat_b[row][col] = 3;
+				continue;
+			}
+			mat_c[row][col] = mat_c[row][col - 1];
+			mat_b[row][col] = 4;
 			continue;
 		}
 	}
@@ -70,27 +77,55 @@ void ShowB(int size)
 	}
 }
 
-string LCS(int i, int j)
+void LCS(int row, int col, vector<char> & chars)
 {
-	if (i == 0 || j == 0)
-		return string("");
-	if (mat_b[i][j] == 1)
-		return LCS(i - 1, j - 1) + str_x[i];
-	if (mat_b[i][j] == 2)
-		return LCS(i - 1, j);
-	if (mat_b[i][j] == 3)
-		return LCS(i, j - 1);
+	cout << "LCS(" << row << ", " << col << ", " << "chars(";
+	for (auto ch : chars)
+		cout << ch;
+	cout << "));" << endl;
+	if (mat_b[row][col] == 0)
+	{
+		for (auto ch : chars)
+			cout << ch;
+		cout << endl;
+		return;
+	}
+	if (mat_b[row][col] == 1)
+	{
+		chars.push_back(str_x[row - 1]);
+		LCS(row - 1, col - 1, chars);
+		chars.pop_back();
+		return;
+	}
+	if (mat_b[row][col] == 2)
+	{
+		LCS(row - 1, col, chars);
+		return;
+	}
+	if (mat_b[row][col] == 3)
+	{
+		LCS(row, col - 1, chars);
+		return;
+	}
+	if (mat_b[row][col] == 4)
+	{
+		LCS(row, col - 1, chars);
+		LCS(row - 1, col, chars);
+		return;
+	}
+	throw exception("error");
 }
 
 int main()
 {
-	int str_x_len = 7 + 1;
-	int str_y_len = 6 + 1;
+	int str_x_len = 7;
+	int str_y_len = 6;
 
 	CalMatCB(str_x_len + 1, str_y_len + 1);
-	ShowC(str_x_len);
-	ShowB(str_x_len);
-	cout << LCS(str_x_len, str_y_len) << endl;
+	ShowC(str_x_len + 1);
+	ShowB(str_x_len + 1);
+	vector<char> chars;
+	LCS(str_x_len, str_y_len, chars);
 	system("pause");
 	return 0;
 }
