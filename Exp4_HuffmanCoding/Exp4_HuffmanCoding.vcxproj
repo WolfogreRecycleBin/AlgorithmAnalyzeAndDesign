@@ -64,10 +64,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Assistance.h" />
-    <ClInclude Include="BinaryTree.h" />
-    <ClInclude Include="BinTreeNode.h" />
-    <ClInclude Include="LinkQueue.h" />
     <ClInclude Include="Node.h" />
   </ItemGroup>
   <ItemGroup>
