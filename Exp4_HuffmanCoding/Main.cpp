@@ -1,6 +1,42 @@
 #include <iostream>
+#include <vector>
 #include "Node.h"
 using namespace std;
+
+void ShowTree(Node<int>  *root)
+{
+	if (root == NULL)
+		return;
+	ShowTree(root->leftChild);
+	cout << root->data << " ";
+	ShowTree(root->rightChild);
+}
+
+void ShowHuffmanCode(Node<int>  *root, vector<int> &code)
+{
+	bool isLeef = true;
+	if (root->leftChild != NULL)
+	{
+		isLeef = false;
+		code.push_back(0);
+		ShowHuffmanCode(root->leftChild, code);
+		code.pop_back();
+	}
+	if (root->rightChild != NULL)
+	{
+		isLeef = false;
+		code.push_back(1);
+		ShowHuffmanCode(root->rightChild, code);
+		code.pop_back();
+	}
+	if (isLeef)
+	{
+		cout << root->data << " ";
+		for (auto it : code)
+			cout << it;
+		cout << endl;
+	}
+}
 
 int main(void)
 {
@@ -44,13 +80,27 @@ int main(void)
 			secondMin = temp;
 			secondMinIndex = tempIndex;
 		}
+		//cout << firstMin->data << " " << secondMin->data << endl;
 		Node<int> *newNode = new Node<int>(firstMin->data + secondMin->data);
 		newNode->leftChild = firstMin;
 		newNode->rightChild = secondMin;
 		trees[firstMinIndex] = newNode;
 		trees[secondMinIndex] = NULL;
 	}
-	
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	ShowTree(trees[i]);
+	//	cout << endl;
+	//}
+	for (int i = 0; i < 6; ++i)
+	{
+		if (trees[i] != NULL)
+		{
+			vector<int> code;
+			ShowHuffmanCode(trees[i], code);
+			break;
+		}
+	}
 	system("pause");
 	return 0;
 }
