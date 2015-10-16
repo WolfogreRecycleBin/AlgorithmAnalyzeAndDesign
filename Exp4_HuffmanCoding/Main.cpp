@@ -101,25 +101,42 @@ int main(void)
 			cin >> value;
 			trees.push_back(new Node<int>(value, valueCount));
 		}
-		
-		sort(trees.begin(), trees.end(), Greater);
+//-----------------------------------------------------------
+		//sort(trees.begin(), trees.end(), Greater);
 
+		//while (trees.size() > 1)
+		//{
+		//	Node<int>* rightTree = trees.back();
+		//	trees.pop_back();
+		//	Node<int>* leftTree = trees.back();
+		//	trees.pop_back();
+		//	Node<int> *newNode = new Node<int>(leftTree->data + rightTree->data, -1);
+		//	newNode->leftChild = leftTree;
+		//	newNode->rightChild = rightTree;
+		//	vector<Node<int>*>::iterator it;
+		//	for (it = trees.begin(); it != trees.end(); ++it)
+		//		if ((*it)->data < newNode->data)
+		//			break;
+		//	trees.insert(it, newNode);
+		//}
 		while (trees.size() > 1)
 		{
-			Node<int>* rightTree = trees.back();
-			trees.pop_back();
-			Node<int>* leftTree = trees.back();
-			trees.pop_back();
-			Node<int> *newNode = new Node<int>(leftTree->data + rightTree->data, -1);
-			newNode->leftChild = leftTree;
-			newNode->rightChild = rightTree;
-			vector<Node<int>*>::iterator it;
-			for (it = trees.begin(); it != trees.end(); ++it)
-				if ((*it)->data < newNode->data)
-					break;
-			trees.insert(it, newNode);
-		}
+			vector<Node<int>*>::const_iterator min = trees.crend;
+			for (vector<Node<int>*>::const_iterator it = trees.end(); it !=; --it)
+			{
+				if (min == trees.crend || (*it)->data < (*min)->data)
+					min = it;
+			}
 
+			trees.erase(min);
+			int minSecondIndex = -1;
+			for (int i = trees.size - 1; i >= 0; --i)
+			{
+				if (minSecondIndex == -1 || trees[i]->data < trees[minIndex]->data)
+					minIndex = i;
+			}
+		}
+//-----------------------------------------------------------
 		cout << "Case " << caseCount << endl;
 		ShowHuffmanCode(trees.back());
 		cout << endl;
