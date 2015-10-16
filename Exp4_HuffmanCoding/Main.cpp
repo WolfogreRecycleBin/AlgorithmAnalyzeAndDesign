@@ -91,7 +91,8 @@ int main(void)
 	int caseCount = 0;
 	while (++caseCount <= caseNum)
 	{
-		vector<Node<int>*> trees;
+		Node<int>* trees[1000];
+		int treesCount = 0;
 		int valueNum;
 		int valueCount = 0;
 		cin >> valueNum;
@@ -99,7 +100,7 @@ int main(void)
 		{
 			int value;
 			cin >> value;
-			trees.push_back(new Node<int>(value, valueCount));
+			trees[treesCount++] = new Node<int>(value, valueCount);
 		}
 //-----------------------------------------------------------
 		//sort(trees.begin(), trees.end(), Greater);
@@ -119,26 +120,44 @@ int main(void)
 		//			break;
 		//	trees.insert(it, newNode);
 		//}
-		while (trees.size() > 1)
+		while (treesCount > 1)
 		{
-			vector<Node<int>*>::const_iterator min = trees.crend;
-			for (vector<Node<int>*>::const_iterator it = trees.end(); it !=; --it)
+			int minIndex = -1;
+			for (int i = treesCount - 1;i >= 0; --i)
 			{
-				if (min == trees.crend || (*it)->data < (*min)->data)
-					min = it;
-			}
-
-			trees.erase(min);
-			int minSecondIndex = -1;
-			for (int i = trees.size - 1; i >= 0; --i)
-			{
-				if (minSecondIndex == -1 || trees[i]->data < trees[minIndex]->data)
+				if (minIndex == -1 || trees[i]->data < trees[minIndex]->data);
 					minIndex = i;
 			}
+			if (minIndex != treesCount - 1)
+			{
+				Node<int>* temp = trees[minIndex];
+				for (int i = minIndex; i < treesCount - 1; ++i)
+					trees[i] = trees[i + 1];
+				trees[treesCount - 1] = temp;
+			}
+			
+			int minSecondIndex = -1;
+			for (int i = treesCount - 1 - 1; i >= 0; --i)
+			{
+				if (minSecondIndex == -1 || trees[i]->data < trees[minSecondIndex]->data)
+					minSecondIndex = i;
+			}
+			if (minSecondIndex != treesCount - 1 - 1)
+			{
+				Node<int>* temp = trees[minSecondIndex];
+				for (int i = minSecondIndex; i < treesCount - 1 - 1; ++i)
+					trees[i] = trees[i + 1];
+				trees[treesCount - 1 - 1] = temp;
+			}
+			Node<int> *newNode = new Node<int>(trees[treesCount - 1 - 1]->data + trees[treesCount - 1]->data, -1);
+			newNode->leftChild = trees[treesCount - 1 - 1];
+			newNode->rightChild = trees[treesCount - 1];
+			treesCount -= 2;
+			
 		}
 //-----------------------------------------------------------
 		cout << "Case " << caseCount << endl;
-		ShowHuffmanCode(trees.back());
+		ShowHuffmanCode();
 		cout << endl;
 	}
 	
