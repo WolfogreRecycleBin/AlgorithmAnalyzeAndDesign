@@ -24,6 +24,11 @@ void CalHuffmanCode(Node<int>  *root)
 void ShowHuffmanCode(Node<int> *root)
 {
 	CalHuffmanCode(root);
+	struct
+	{
+		int data;
+		string huffmanCodes;
+	} outputHuffmanCodes[1000];
 	queue<Node<int> *> nodeQueue;
 	nodeQueue.push(root);
 	while (!nodeQueue.empty())
@@ -43,8 +48,15 @@ void ShowHuffmanCode(Node<int> *root)
 		}
 		if (isLeef)
 		{
-			cout << node->data << " " << node->huffmanCode << endl;
+			outputHuffmanCodes[node->inputOrder].data = node->data;
+			outputHuffmanCodes[node->inputOrder].huffmanCodes = node->huffmanCode;
 		}
+	}
+	for (int i = 1; i < 1000; ++i)
+	{
+		if (outputHuffmanCodes[i].huffmanCodes.length() == 0)
+			break;
+		cout << outputHuffmanCodes[i].data << " " << outputHuffmanCodes[i].huffmanCodes << endl;
 	}
 }
 
@@ -61,13 +73,14 @@ int main(void)
 	while (++caseCount <= caseNum)
 	{
 		vector<Node<int>*> trees;
-		int valueCount;
-		cin >> valueCount;
-		while (--valueCount >= 0)
+		int valueNum;
+		int valueCount = 0;
+		cin >> valueNum;
+		while (++valueCount <= valueNum)
 		{
 			int value;
 			cin >> value;
-			trees.push_back(new Node<int>(value));
+			trees.push_back(new Node<int>(value, valueCount));
 		}
 		
 		sort(trees.begin(), trees.end(), Greater);
@@ -78,7 +91,7 @@ int main(void)
 			trees.pop_back();
 			Node<int>* leftTree = trees.back();
 			trees.pop_back();
-			Node<int> *newNode = new Node<int>(leftTree->data + rightTree->data);
+			Node<int> *newNode = new Node<int>(leftTree->data + rightTree->data, -1);
 			newNode->leftChild = leftTree;
 			newNode->rightChild = rightTree;
 			vector<Node<int>*>::iterator it;
