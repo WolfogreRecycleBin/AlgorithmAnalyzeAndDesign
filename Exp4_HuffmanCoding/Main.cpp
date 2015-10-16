@@ -4,8 +4,27 @@
 #include <string>
 #include <algorithm>//for sort()
 #include <functional>//for greater<int>()
-#include "Node.h"
+//#include "Node.h"
 using namespace std;
+
+
+template <class ElemType>
+struct Node
+{
+	// 数据成员:
+	ElemType data;				// 数据域
+	int inputOrder;
+	Node<ElemType> *leftChild;
+	Node<ElemType> *rightChild;
+	std::string huffmanCode;
+	// 构造函数:
+	Node(ElemType newDate, int newInputOrder)
+	{
+		leftChild = rightChild = NULL;
+		data = newDate;
+		inputOrder = newInputOrder;
+	}
+};
 
 void CalHuffmanCode(Node<int>  *root)
 {
