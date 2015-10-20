@@ -103,29 +103,12 @@ int main(void)
 			trees[treesCount++] = new Node<int>(value, valueCount);
 		}
 //-----------------------------------------------------------
-		//sort(trees.begin(), trees.end(), Greater);
-
-		//while (trees.size() > 1)
-		//{
-		//	Node<int>* rightTree = trees.back();
-		//	trees.pop_back();
-		//	Node<int>* leftTree = trees.back();
-		//	trees.pop_back();
-		//	Node<int> *newNode = new Node<int>(leftTree->data + rightTree->data, -1);
-		//	newNode->leftChild = leftTree;
-		//	newNode->rightChild = rightTree;
-		//	vector<Node<int>*>::iterator it;
-		//	for (it = trees.begin(); it != trees.end(); ++it)
-		//		if ((*it)->data < newNode->data)
-		//			break;
-		//	trees.insert(it, newNode);
-		//}
 		while (treesCount > 1)
 		{
 			int minIndex = -1;
 			for (int i = treesCount - 1;i >= 0; --i)
 			{
-				if (minIndex == -1 || trees[i]->data < trees[minIndex]->data);
+				if (minIndex == -1 || trees[i]->data < trees[minIndex]->data)
 					minIndex = i;
 			}
 			if (minIndex != treesCount - 1)
@@ -153,11 +136,26 @@ int main(void)
 			newNode->leftChild = trees[treesCount - 1 - 1];
 			newNode->rightChild = trees[treesCount - 1];
 			treesCount -= 2;
+
+			int last;
+			for (last = treesCount - 1; last >= 0; --last)
+			{
+				if (trees[last]->data >= newNode->data)
+					break;
+			}
+
+			for (int i = treesCount - 1; i > last; --i)
+			{
+				trees[i + 1] = trees[i];
+			}
 			
+			trees[last + 1] = newNode;
+			++treesCount;
+
 		}
 //-----------------------------------------------------------
 		cout << "Case " << caseCount << endl;
-		ShowHuffmanCode();
+		ShowHuffmanCode(trees[0]);
 		cout << endl;
 	}
 	
