@@ -2,22 +2,16 @@
 #include <vector>
 #include <queue>
 #include <string>
-#include <algorithm>//for sort()
-#include <functional>//for greater<int>()
-//#include "Node.h"
 using namespace std;
-
 
 template <class ElemType>
 struct Node
 {
-	// 数据成员:
-	ElemType data;				// 数据域
+	ElemType data;
 	int inputOrder;
 	Node<ElemType> *leftChild;
 	Node<ElemType> *rightChild;
-	std::string huffmanCode;
-	// 构造函数:
+	string huffmanCode;
 	Node(ElemType newDate, int newInputOrder)
 	{
 		leftChild = rightChild = NULL;
@@ -77,11 +71,6 @@ void ShowHuffmanCode(Node<int> *root)
 			break;
 		cout << outputHuffmanCodes[i].data << " " << outputHuffmanCodes[i].huffmanCodes << endl;
 	}
-}
-
-bool Greater(Node<int>* a, Node<int>* b)
-{
-	return a->data > b->data;
 }
 
 int main(void)
@@ -158,7 +147,6 @@ int main(void)
 		ShowHuffmanCode(trees[0]);
 		cout << endl;
 	}
-	
 	
 	system("pause");
 	return 0;
