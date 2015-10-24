@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <queue>
 #include <string>
 #include <sstream>
 using namespace std;
@@ -10,88 +10,61 @@ struct Point
 	int col;
 };
 
-bool mat[8][8][8][8];
-vector<Point> way;
-int bestWayLenth;
-int wayLenth;
+Point dRC[] = {
+	{ -2, -1, },
+	{ -2, +1, },
+	{ -1, -2, },
+	{ -1, +2, },
+	{ +1, -2, },
+	{ +1, +2, },
+	{ +2, -1, },
+	{ +2, +1, }
+};
 
-bool IsInWay(Point point)
-{
-	for (auto it : way)
-		if (it.row == point.row && it.col == point.col)
-			return true;
-	return false;
-}
+bool mat[8][8];
 
-void InitMat()
+int FindWay(queue<Point> &points, Point aimNode)
 {
-	for (int row1 = 0; row1 < 8; ++row1)
-		for (int col1 = 0; col1 < 8; ++col1)
-		{
-			for (int row2 = 0; row2 < 8; ++row2)
-				for (int col2 = 0; col2 < 8; ++col2)
-					mat[row1][col1][row2][col2] = false;
-			Point dRC[] = {
-				{ -2, -1, },
-				{ -2, +1, },
-				{ -1, -2, },
-				{ -1, +2, },
-				{ +1, -2, },
-				{ +1, +2, },
-				{ +2, -1, },
-				{ +2, +1, }
-			};
-			for (int i = 0; i < 8; ++i)
-			{
-				int row2 = row1 + dRC[i].row;
-				int col2 = col1 + dRC[i].col;
-				if (row2 >= 0 && row2 <= 8 && col2 >= 0 && col2 <= 8)
-					mat[row1][col1][row2][col2] = true;
-			}
-		}		
-}
-
-void InitWay()
-{
-	way.clear();
-	bestWayLenth = INT_MAX;
-	wayLenth = 0;
-}
-
-void FindWay(Point startNode, Point aimNode)//startNode and aimNode are numbers start form 0
-{
-	if (startNode.row == aimNode.row && startNode.col == aimNode.col)
+	if (mat[aimNode.row][aimNode.col])
 	{
-		bestWayLenth = wayLenth;
-		return;
+		return 0;
 	}
-	for (int row = 0; row < 8; ++row)
-		for (int col = 0; col < 8; ++col)
+	queue<Point> newPoints;
+	while (!points.empty())
+	{
+		Point point = points.front();
+		points.pop();
+		for (int i = 0; i < 8; ++i)
 		{
-			Point point;
-			point.row = row;
-			point.col = col;
+			int row2 = point.row + dRC[i].row;
+			int col2 = point.col + dRC[i].col;
+			if (row2 >= 0 && row2 <= 7 && col2 >= 0 && col2 <= 7 && !mat[row2][col2])
 			{
-				if (!IsInWay(point) && mat[startNode.row][startNode.col][row][col] && wayLenth + 1 <= bestWayLenth)
-				{
-					++wayLenth;
-					way.push_back(point);
-					FindWay(point, aimNode);
-					way.pop_back();
-					--wayLenth;
-				}
+				mat[row2][col2] = true;
+				Point newPoint;
+				newPoint.row = row2;
+				newPoint.col = col2;
+				newPoints.push(newPoint);
 			}
 		}
+	}
+	return 1 + FindWay(newPoints, aimNode);
 }
 
+void Init()
+{
+	for (int i = 0; i < 8; ++i)
+		for (int j = 0; j < 8; ++j)
+			mat[i][j] = false;
+}
 
 int main()
 {
 	int caseCount = 0;
 	string line;
-	InitMat();
 	while (getline(cin,line) && line.length() == 5)
 	{
+		Init();
 		Point startNode;
 		Point aimNode;
 		stringstream sstr;
@@ -99,23 +72,19 @@ int main()
 		char ch;
 		sstr >> ch;
 		startNode.row = ch - 'a';
-		//cout << ch << " " << startNode.row << endl;
 		sstr >> ch;
 		startNode.col = ch - '1';
-		//cout << ch << " " << startNode.col << endl;
 		sstr >> ch;
 		aimNode.row = ch - 'a';
-		//cout << ch << " " << aimNode.row << endl;
 		sstr >> ch;
 		aimNode.col = ch - '1';
-		//cout << ch << " " << aimNode.col << endl;
-		InitWay();
-		way.push_back(startNode);
-		FindWay(startNode, aimNode);
+		queue<Point> points;
+		points.push(startNode);
+		mat[startNode.row][startNode.col] = true;
 		cout << (char)(startNode.row + 'a') << (char)(startNode.col + '1')
 			<< "==>"
 			<< (char)(aimNode.row + 'a') << (char)(aimNode.col + '1')
-			<< ": " << bestWayLenth
+			<< ": " << FindWay(points, aimNode)
 			<< " moves" << endl;
 	}
 	return 0;
