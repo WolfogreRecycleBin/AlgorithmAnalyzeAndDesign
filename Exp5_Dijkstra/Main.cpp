@@ -45,6 +45,10 @@ void Init()
 {
 	bestWay.clear();
 	way.clear();
+	/*
+	//for submitting
+	bestWayLenth = 2147483647;
+	*/
 	bestWayLenth = INT_MAX;
 	wayLenth = 0;
 }
@@ -80,6 +84,10 @@ int main()
 		way.push_back(startNode - 1);
 		FindWay(startNode - 1, aimNode - 1);
 		cout << "Case " << ++caseCount << endl;
+		/*
+		//for submitting
+		cout << bestWayLenth << endl;
+		*/
 		cout << "The least distance from " << startNode << "->" << aimNode << " is " << bestWayLenth << endl;
 		cout << "the path is ";
 		ShowBestWay();
