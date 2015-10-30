@@ -1,11 +1,9 @@
 #include <iostream>
-#include <string>
 #include <vector>
 using namespace std;
 
-vector<int> result;
-vector<int> bestResult;
-int w[10000];
+vector<int> result(20);
+int w[20];
 int boxCount;
 int valueSum;
 int c1, c2;
@@ -36,11 +34,8 @@ void FindBestW(int index)
 bool FindBestWay(int index)
 {
 	if (index >= boxCount)
-	{
-		bestResult = result;
 		return true;
-	}
-	if (s1 + w[index] <= c1)
+	if (s1 + w[index] <= bestW)
 	{
 		s1 += w[index];
 		result.push_back(1);
@@ -49,7 +44,7 @@ bool FindBestWay(int index)
 		result.pop_back();
 		s1 -= w[index];
 	}
-	if (s2 + w[index] <= c2 && valueSum - (s2 + w[index]) >= bestW)
+	if (valueSum - (s2 + w[index]) >= bestW)
 	{
 		s2 += w[index];
 		result.push_back(0);
@@ -84,10 +79,9 @@ int main()
 		{
 			s1 = s2 = 0;
 			result.clear();
-			bestResult.clear();
 			FindBestWay(0);
 			cout << bestW << " ";
-			for (auto it : bestResult)
+			for (auto it : result)
 				cout << it;
 			cout << endl;
 		}
