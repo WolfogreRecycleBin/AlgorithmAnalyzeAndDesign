@@ -12,30 +12,53 @@ int c1, c2;
 int s1, s2;
 int bestW;
 
-void Backtrack(int index)
+void FindBestW(int index)
 {
 	if (index >= boxCount)
 	{
 		bestW = s1;
-		bestResult = result;
 		return;
 	}
 	if (s1 + w[index] <= c1)
 	{
 		s1 += w[index];
-		result.push_back(1);
-		Backtrack(index + 1);
-		result.pop_back();
+		FindBestW(index + 1);
 		s1 -= w[index];
 	}
 	if (s2 + w[index] <= c2 && valueSum - (s2 + w[index]) > bestW)
 	{
 		s2 += w[index];
+		FindBestW(index + 1);
+		s2 -= w[index];
+	}
+}
+
+bool FindBestWay(int index)
+{
+	if (index >= boxCount)
+	{
+		bestResult = result;
+		return true;
+	}
+	if (s1 + w[index] <= c1)
+	{
+		s1 += w[index];
+		result.push_back(1);
+		if (FindBestWay(index + 1))
+			return true;
+		result.pop_back();
+		s1 -= w[index];
+	}
+	if (s2 + w[index] <= c2 && valueSum - (s2 + w[index]) >= bestW)
+	{
+		s2 += w[index];
 		result.push_back(0);
-		Backtrack(index + 1);
+		if (FindBestWay(index + 1))
+			return true;
 		result.pop_back();
 		s2 -= w[index];
 	}
+	return false;
 }
 
 int main()
@@ -51,16 +74,18 @@ int main()
 			valueSum += w[i];
 		}
 		cin >> c1 >> c2;
-		result.clear();
-		bestResult.clear();
-		s1 = s2 = bestW = 0;
-		Backtrack(0);
 		
+		s1 = s2 = bestW = 0;
+		FindBestW(0);
 		cout << "Case " << ++caseCount << endl;
-		if (bestResult.size() == 0)
+		if (bestW == 0)
 			cout << "No" << endl;
 		else
 		{
+			s1 = s2 = 0;
+			result.clear();
+			bestResult.clear();
+			FindBestWay(0);
 			cout << bestW << " ";
 			for (auto it : bestResult)
 				cout << it;
